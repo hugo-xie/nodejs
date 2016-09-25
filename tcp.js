@@ -19,22 +19,23 @@ server.on('connection',function(socket){
       console.log('server has a new connection');
       socket.write('hello!you can start typing. Type "qiut" to exit.\n');
       sockets.push(socket);
-      
-      // socket.on('data',function(data){
-      //   console.log('got:'+data.toString());
-      //   if (data.toString().trim().toLowerCase() === 'quit') {
-      //     socket.write('bye bye!');
-      //     return socket.end();
-      //   }
-      //   socket.write(data);
-      // });
+      process.stdin.on('data',function(data){
+  socket.write(data);
+});
+      socket.on('data',function(data){
+        console.log('got:'+data.toString());
+        if (data.toString().trim().toLowerCase() === 'quit') {
+          socket.write('bye bye!');
+          return socket.end();
+        }
+        socket.write(data);
+      });
       // sockets[0].pipe(writeStream1);
       // sockets[1].pipe(writeStream2);
-     sockets[0].on('data',function(data){
+     socket.on('data',function(data){
       // sockets[0].pipe(writeStream2);
       
-      readstream2.pipe(sockets[0]);
-      sockets[1].write(data);
+      console.log(data.toString());
       // sockets[1].write(readstream2);
       }); 
     
