@@ -11,11 +11,23 @@ var  fs = require('fs');
 //   res.end();
 // }).listen(4000);
 var options = {
-  host:"www.baidu.com",
-  port:80,
-  path:"/index.html"
+  host:"127.0.0.1",
+  port:4001,
+  url:'/print/body',
+  mothod:"POST"
 };
 
-http.get(options,function(res){
-  console.log('Got response:'+res.statusCode);
+// http.get(options,function(res){
+//   console.log('Got response:'+res.statusCode);
+// });
+var request = http.request(options, function(response){
+     console.log('status:'+response.statusCode);
+     console.log('HEADERS:'+response.headers);
+     response.on('data',function(data){
+      console.log('get:'+data.toString());
+     });
 });
+
+request.write('this is a piece of data .\n');
+request.write('this is another piece of data.\n');
+request.end();
